@@ -11,12 +11,12 @@
     --sky-top:#cfe9fb;
     --sky-mid:#a9d4f2;
     --sky-bottom:#7fb8e6;
-    --ink:#1d2a38;          /* 深藍灰 文字 */
-    --ink-soft:#4a6178;
-    --line:rgba(29,42,56,.14);
+    --ink:#e8edf2;          /* 淺灰文字 */
+    --ink-soft:#a8b8c8;
+    --line:rgba(232,237,242,.18);
     --paper:rgba(255,255,255,.55);
     --paper-solid:#f4f9ff;
-    --accent:#2f6fa8;
+    --accent:#7fc4ff;
   }
 
   *{margin:0;padding:0;box-sizing:border-box}
@@ -160,10 +160,10 @@
     font-weight:600;
     font-size:clamp(2.6rem,8vw,6.2rem);
     line-height:1.12;letter-spacing:.005em;
-    color:#0a2150;
-    text-shadow:0 0 50px rgba(255,255,255,.9),0 2px 10px rgba(10,33,80,.18);
+    color:#f0f4f8;
+    text-shadow:0 2px 30px rgba(0,0,0,.45);
   }
-  .hero h1 em{font-style:italic;font-weight:600;color:#2f7fff;text-shadow:0 0 34px rgba(47,127,255,.5)}
+  .hero h1 em{font-style:italic;font-weight:600;color:#7fc4ff;text-shadow:0 0 34px rgba(127,196,255,.5)}
   .hero .sub{
     margin-top:1.4rem;font-size:.82rem;letter-spacing:.42em;
     text-transform:uppercase;color:var(--ink-soft);font-weight:300;
@@ -220,16 +220,16 @@
   .work-meta h2{
     font-family:'Cormorant Garamond',serif;font-weight:600;
     font-size:clamp(2.1rem,4.6vw,3.4rem);line-height:1.05;margin:.5rem 0 .3rem;
-    color:#0a2150;letter-spacing:.01em;
+    color:#f0f4f8;letter-spacing:.01em;
   }
-  .work-meta h2 em{font-style:italic;color:#2f7fff;font-weight:600}
+  .work-meta h2 em{font-style:italic;color:#7fc4ff;font-weight:600}
   .work-meta .desc{
-    font-size:1.02rem;line-height:1.8;color:var(--ink);font-weight:400;
+    font-size:1.02rem;line-height:1.8;color:#c8d4e0;font-weight:400;
     max-width:460px;margin:.8rem auto 1.6rem;
   }
   .work-meta .desc strong{
-    color:#2f7fff;font-weight:600;
-    background:linear-gradient(transparent 62%,rgba(47,127,255,.16) 62%);
+    color:#7fc4ff;font-weight:600;
+    background:linear-gradient(transparent 62%,rgba(127,196,255,.18) 62%);
     padding:0 2px;
   }
   .work-links{display:flex;gap:1.6rem;justify-content:center;align-items:center}
@@ -242,7 +242,7 @@
   .work-links a:hover{opacity:.5}
   .work-links .video-link{
     display:flex;align-items:center;gap:.5rem;
-    background:#0a2150;color:#fff !important;border:none;
+    background:#1a3a5c;color:#fff !important;border:none;
     padding:.7rem 1.4rem;border-radius:30px;font-weight:500;
     transition:transform .3s ease,box-shadow .3s ease,background .3s ease;
   }
