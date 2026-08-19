@@ -367,22 +367,22 @@
   <div class="hero-stage" id="heroStage">
     <!-- 飄動圖片 — 圍繞文字（原始圖片，無邊框） -->
     <div class="float-card" data-float='{"dx":18,"dy":-14,"rot":4,"dur":16,"delay":0.2}' style="width:clamp(70px,10vw,130px);top:-8%;left:-18%;border-radius:0;background:none;border:none;box-shadow:none;overflow:visible">
-      <img src="assets/float-01.jpg" alt="" style="border-radius:0;object-fit:contain;display:block">
+      <img src="assets/float-01.jpg" alt="" style="border-radius:0;object-fit:contain;display:block;border:none;outline:none">
     </div>
     <div class="float-card" data-float='{"dx":-15,"dy":12,"rot":-5,"dur":18,"delay":0.5}' style="width:clamp(80px,11vw,140px);top:-12%;right:-16%;border-radius:0;background:none;border:none;box-shadow:none;overflow:visible">
-      <img src="assets/float-02.jpg" alt="" style="border-radius:0;object-fit:contain;display:block">
+      <img src="assets/float-02.jpg" alt="" style="border-radius:0;object-fit:contain;display:block;border:none;outline:none">
     </div>
     <div class="float-card" data-float='{"dx":22,"dy":10,"rot":3,"dur":20,"delay":0.8}' style="width:clamp(75px,10vw,135px);top:35%;left:-22%;border-radius:0;background:none;border:none;box-shadow:none;overflow:visible">
-      <img src="assets/float-03.jpg" alt="" style="border-radius:0;object-fit:contain;display:block">
+      <img src="assets/float-03.jpg" alt="" style="border-radius:0;object-fit:contain;display:block;border:none;outline:none">
     </div>
     <div class="float-card" data-float='{"dx":-20,"dy":-16,"rot":-4,"dur":17,"delay":1.1}' style="width:clamp(80px,11vw,145px);top:38%;right:-22%;border-radius:0;background:none;border:none;box-shadow:none;overflow:visible">
-      <img src="assets/float-04.jpg" alt="" style="border-radius:0;object-fit:contain;display:block">
+      <img src="assets/float-04.jpg" alt="" style="border-radius:0;object-fit:contain;display:block;border:none;outline:none">
     </div>
     <div class="float-card" data-float='{"dx":14,"dy":18,"rot":5,"dur":19,"delay":1.4}' style="width:clamp(70px,9vw,120px);bottom:-8%;left:-14%;border-radius:0;background:none;border:none;box-shadow:none;overflow:visible">
-      <img src="assets/float-05.jpg" alt="" style="border-radius:0;object-fit:contain;display:block">
+      <img src="assets/float-05.jpg" alt="" style="border-radius:0;object-fit:contain;display:block;border:none;outline:none">
     </div>
     <div class="float-card" data-float='{"dx":-16,"dy":-12,"rot":-3,"dur":21,"delay":1.7}' style="width:clamp(75px,10vw,130px);bottom:-6%;right:-14%;border-radius:0;background:none;border:none;box-shadow:none;overflow:visible">
-      <img src="assets/float-06.jpg" alt="" style="border-radius:0;object-fit:contain;display:block">
+      <img src="assets/float-06.jpg" alt="" style="border-radius:0;object-fit:contain;display:block;border:none;outline:none">
     </div>
     <div class="hero-text">
       <h1>I <em style="font-weight: bold;">cut</em>.<br>I <em style="font-weight: bold;">create</em>.<br>I make things <em style="font-weight: bold;">move</em>.</h1>
@@ -397,7 +397,7 @@
   <div class="work-inner">
     <div class="work-media" style="opacity: 0; transform: translateY(-50px) scale(1.06);">
       <span class="index">01</span>
-      <div class="work-thumb" style="background:linear-gradient(135deg,#1a4a7a,#4a90c8,#7fc4ff)"></div>
+      <div class="work-thumb" style="background:rgba(255,255,255,.15)"></div>
       <button class="play" aria-label="Play reel" onclick="window.location.href='watch.html?v=1'">
         <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>
       </button>
@@ -419,7 +419,7 @@
   <div class="work-inner">
     <div class="work-media" style="opacity: 0.479571; transform: translateY(-26.021459px) scale(1.031226);">
       <span class="index">02</span>
-      <div class="work-thumb" style="background:linear-gradient(135deg,#2a5a8a,#5aa0d8,#8fd0ff)"></div>
+      <div class="work-thumb" style="background:rgba(255,255,255,.15)"></div>
       <button class="play" aria-label="Play reel" onclick="window.location.href='watch.html?v=2'">
         <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>
       </button>
@@ -441,7 +441,7 @@
   <div class="work-inner">
     <div class="work-media" style="opacity: 0; transform: translateY(50px) scale(1.06);">
       <span class="index">03</span>
-      <div class="work-thumb" style="background:linear-gradient(135deg,#0a3a6a,#3a80b8,#6fb0e8)"></div>
+      <div class="work-thumb" style="background:rgba(255,255,255,.15)"></div>
       <button class="play" aria-label="Play reel" onclick="window.location.href='watch.html?v=3'">
         <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>
       </button>
@@ -468,6 +468,16 @@
   <button class="vclose" id="vclose" aria-label="Close">×</button>
   <video id="vplayer" controls="" playsinline=""></video>
 </div>
+
+<!-- 背景音樂 -->
+<audio id="bgm" loop preload="auto">
+  <source src="assets/bgm.mp3" type="audio/mpeg">
+</audio>
+
+<!-- 音樂控制按鈕 -->
+<button id="musicToggle" style="position:fixed;bottom:1.5rem;right:1.5rem;z-index:200;width:44px;height:44px;border-radius:50%;border:1px solid rgba(29,42,56,.2);background:rgba(255,255,255,.5);backdrop-filter:blur(8px);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.3s">
+  <svg id="musicIcon" viewBox="0 0 24 24" style="width:18px;height:18px;fill:#1d2a38"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+</button>
 
 <script>
   // 飄動圖片 — 圍繞文字緩慢漂移 + 進場
@@ -551,6 +561,36 @@
   document.getElementById('vclose').addEventListener('click',closeVideo);
   vmodal.addEventListener('click',e=>{if(e.target===vmodal)closeVideo()});
   document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeVideo();about.classList.remove('open');document.body.style.overflow=''}});
+
+  // 背景音樂自動播放
+  const bgm=document.getElementById('bgm');
+  const musicToggle=document.getElementById('musicToggle');
+  const musicIcon=document.getElementById('musicIcon');
+  let isPlaying=false;
+  const playIcon='<path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>';
+  const pauseIcon='<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
+
+  function startMusic(){
+    bgm.volume=0.4;
+    bgm.play().then(()=>{isPlaying=true;musicIcon.innerHTML=playIcon;})
+    .catch(()=>{
+      // 瀏覽器阻擋自動播放 — 等待首次互動
+      isPlaying=false;musicIcon.innerHTML=playIcon;
+    });
+  }
+  function toggleMusic(){
+    if(isPlaying){bgm.pause();isPlaying=false;musicIcon.innerHTML=playIcon;}
+    else{bgm.volume=0.4;bgm.play().then(()=>{isPlaying=true;musicIcon.innerHTML=playIcon;}).catch(()=>{});}
+  }
+  musicToggle.addEventListener('click',toggleMusic);
+
+  // 嘗試自動播放
+  startMusic();
+  // 若被阻擋，首次任意點擊時播放
+  document.addEventListener('click',function once(){
+    if(!isPlaying){bgm.volume=0.4;bgm.play().then(()=>{isPlaying=true;musicIcon.innerHTML=playIcon;}).catch(()=>{});}
+    document.removeEventListener('click',once);
+  },{once:true});
 </script>
 
 
