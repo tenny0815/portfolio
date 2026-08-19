@@ -163,9 +163,7 @@
   }
   .float-card img{width:100%;height:100%;object-fit:cover;display:block}
   .float-card::after{
-    content:"";position:absolute;inset:0;
-    background:linear-gradient(160deg,rgba(207,233,251,.12),rgba(127,184,230,.18));
-    mix-blend-mode:overlay;
+    content:none;
   }
   /* 中央文字安全區 — 圖片不遮擋 */
   .hero-text{position:relative;z-index:5}
@@ -367,6 +365,25 @@
 <!-- 開場 -->
 <section class="hero">
   <div class="hero-stage" id="heroStage">
+    <!-- 飄動圖片 — 圍繞文字 -->
+    <div class="float-card" data-float='{"dx":18,"dy":-14,"rot":4,"dur":16,"delay":0.2}' style="width:clamp(70px,10vw,130px);top:-8%;left:-18%;border-radius:50%;background:transparent;box-shadow:0 14px 40px -16px rgba(20,50,80,.3)">
+      <img src="assets/float-01.jpg" alt="" style="border-radius:50%;object-fit:cover">
+    </div>
+    <div class="float-card" data-float='{"dx":-15,"dy":12,"rot":-5,"dur":18,"delay":0.5}' style="width:clamp(80px,11vw,140px);top:-12%;right:-16%;border-radius:50%;background:transparent;box-shadow:0 14px 40px -16px rgba(20,50,80,.3)">
+      <img src="assets/float-02.jpg" alt="" style="border-radius:50%;object-fit:cover">
+    </div>
+    <div class="float-card" data-float='{"dx":22,"dy":10,"rot":3,"dur":20,"delay":0.8}' style="width:clamp(75px,10vw,135px);top:35%;left:-22%;border-radius:50%;background:transparent;box-shadow:0 14px 40px -16px rgba(20,50,80,.3)">
+      <img src="assets/float-03.jpg" alt="" style="border-radius:50%;object-fit:cover">
+    </div>
+    <div class="float-card" data-float='{"dx":-20,"dy":-16,"rot":-4,"dur":17,"delay":1.1}' style="width:clamp(80px,11vw,145px);top:38%;right:-22%;border-radius:50%;background:transparent;box-shadow:0 14px 40px -16px rgba(20,50,80,.3)">
+      <img src="assets/float-04.jpg" alt="" style="border-radius:50%;object-fit:cover">
+    </div>
+    <div class="float-card" data-float='{"dx":14,"dy":18,"rot":5,"dur":19,"delay":1.4}' style="width:clamp(70px,9vw,120px);bottom:-8%;left:-14%;border-radius:50%;background:transparent;box-shadow:0 14px 40px -16px rgba(20,50,80,.3)">
+      <img src="assets/float-05.jpg" alt="" style="border-radius:50%;object-fit:cover">
+    </div>
+    <div class="float-card" data-float='{"dx":-16,"dy":-12,"rot":-3,"dur":21,"delay":1.7}' style="width:clamp(75px,10vw,130px);bottom:-6%;right:-14%;border-radius:50%;background:transparent;box-shadow:0 14px 40px -16px rgba(20,50,80,.3)">
+      <img src="assets/float-06.jpg" alt="" style="border-radius:50%;object-fit:cover">
+    </div>
     <div class="hero-text">
       <h1>I <em style="font-weight: bold;">cut</em>.<br>I <em style="font-weight: bold;">create</em>.<br>I make things <em style="font-weight: bold;">move</em>.</h1>
       <div class="sub" style="font-weight: bold; font-size: 20px;">&nbsp;Tenny Lu</div>
