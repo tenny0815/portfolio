@@ -11,15 +11,15 @@
   *{margin:0;padding:0;box-sizing:border-box}
   body{
     font-family:'Inter',sans-serif;
-    background:url('assets/hero-ocean.jpg') no-repeat center center fixed;
+    background:url('assets/profile-bg.jpg') no-repeat center center fixed;
     background-size:cover;
     color:#1d2a38;min-height:100vh;display:flex;flex-direction:column;
     -webkit-font-smoothing:antialiased;overflow-x:hidden;
   }
   body::before{
     content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
-    background:linear-gradient(180deg,rgba(255,255,255,.55) 0%,rgba(255,255,255,.4) 40%,rgba(255,255,255,.6) 100%);
-    backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+    background:linear-gradient(180deg,rgba(255,255,255,.5) 0%,rgba(255,255,255,.35) 40%,rgba(255,255,255,.55) 100%);
+    backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
   }
 
   /* 頂部 */
@@ -45,8 +45,13 @@
     flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
     padding:2rem 1.5rem 3rem;position:relative;z-index:5;
   }
+  .about-wrap{
+    display:flex;align-items:center;justify-content:center;gap:clamp(1.5rem,4vw,3rem);
+    max-width:880px;width:100%;
+  }
+  /* 文字卡片 */
   .about-card{
-    max-width:640px;width:100%;text-align:center;
+    flex:1;text-align:center;
     padding:clamp(2.5rem,6vw,4rem) clamp(1.5rem,5vw,3rem);
     background:linear-gradient(160deg,rgba(255,255,255,.6),rgba(255,255,255,.35));
     border-radius:20px;border:1px solid rgba(255,255,255,.5);
@@ -82,6 +87,17 @@
   .contact-item a{color:#2f7fff;text-decoration:none;font-size:1.05rem;font-weight:500;border-bottom:1px solid rgba(47,127,255,.4);padding-bottom:2px;transition:border-color .3s}
   .contact-item a:hover{border-color:#2f7fff}
 
+  /* 裝飾圖片 */
+  .about-deco{
+    width:clamp(140px,18vw,220px);height:clamp(140px,18vw,220px);flex-shrink:0;
+    border-radius:16px;overflow:hidden;
+    box-shadow:0 30px 70px -20px rgba(10,33,80,.3);
+    animation:floatDeco 6s ease-in-out infinite;
+    border:3px solid rgba(255,255,255,.6);
+  }
+  .about-deco img{width:100%;height:100%;object-fit:cover;display:block}
+  @keyframes floatDeco{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-12px) rotate(2deg)}}
+
   /* 底部 */
   .footer-contact{
     text-align:center;padding:2rem 1.5rem 2.5rem;position:relative;z-index:5;
@@ -92,6 +108,12 @@
     letter-spacing:.2em;text-transform:uppercase;margin:0 .8rem;transition:color .3s;
   }
   .footer-contact a:hover{color:#2f7fff}
+
+  /* 手機版：裝飾圖移到卡片上方 */
+  @media(max-width:640px){
+    .about-wrap{flex-direction:column}
+    .about-deco{order:-1}
+  }
 </style>
 </head>
 <body>
@@ -105,19 +127,24 @@
 </header>
 
 <main>
-  <div class="about-card">
-    <div class="kicker">Profile</div>
-    <h1>Welcome to my <em>world</em>!</h1>
-    <p class="bio">With <strong>2 years of video editing and post-production experience</strong>, I have successfully edited over <strong>100+ videos</strong>. I'm always excited for new collaborations!</p>
-    <div class="divider"></div>
-    <div class="contact-label">Contact Information</div>
-    <div class="contact-item">
-      <span class="ctype">Email</span>
-      <a href="mailto:tennylu2000330@gmail.com">tennylu2000330@gmail.com</a>
+  <div class="about-wrap">
+    <div class="about-card">
+      <div class="kicker">Profile</div>
+      <h1>Welcome to my <em>world</em>!</h1>
+      <p class="bio">With <strong>2 years of video editing and post-production experience</strong>, I have successfully edited over <strong>100+ videos</strong>. I'm always excited for new collaborations!</p>
+      <div class="divider"></div>
+      <div class="contact-label">Contact Information</div>
+      <div class="contact-item">
+        <span class="ctype">Email</span>
+        <a href="mailto:tennylu2000330@gmail.com">tennylu2000330@gmail.com</a>
+      </div>
+      <div class="contact-item">
+        <span class="ctype">Instagram</span>
+        <a href="https://instagram.com/tenny_is_happy" target="_blank" rel="noopener">@tenny_is_happy</a>
+      </div>
     </div>
-    <div class="contact-item">
-      <span class="ctype">Instagram</span>
-      <a href="https://instagram.com/tenny_is_happy" target="_blank" rel="noopener">@tenny_is_happy</a>
+    <div class="about-deco">
+      <img src="assets/profile-deco.png" alt="Portrait">
     </div>
   </div>
 </main>
