@@ -211,6 +211,7 @@
     will-change:opacity,transform;
   }
   .work-media img{width:100%;height:100%;object-fit:cover;display:block}
+  .work-media .work-thumb{width:100%;height:100%;border-radius:inherit}
   .work-media .play{
     position:absolute;inset:0;margin:auto;width:78px;height:78px;
     border-radius:50%;border:1px solid rgba(255,255,255,.8);
@@ -366,17 +367,6 @@
 <!-- 開場 -->
 <section class="hero">
   <div class="hero-stage" id="heroStage">
-    <!-- 飄動圖片（圍繞文字） -->
-    <!-- 飄動圖片（圍繞文字 — 真實作品） -->
-    <div class="float-card" style="width:175px;height:118px;top:-14%;left:-9%" data-float="{&quot;dx&quot;:18,&quot;dy&quot;:-12,&quot;rot&quot;:4,&quot;dur&quot;:16,&quot;delay&quot;:0}"><img src="assets/work-lolita.jpg" alt=""></div>
-    <div class="float-card" style="width:122px;height:162px;top:-18%;right:-6%" data-float="{&quot;dx&quot;:-14,&quot;dy&quot;:16,&quot;rot&quot;:-5,&quot;dur&quot;:19,&quot;delay&quot;:1.2}"><img src="assets/work-sky.jpg" alt=""></div>
-    <div class="float-card" style="width:116px;height:150px;top:30%;left:-13%" data-float="{&quot;dx&quot;:22,&quot;dy&quot;:10,&quot;rot&quot;:3,&quot;dur&quot;:21,&quot;delay&quot;:.6}"><img src="assets/work-boys.jpg" alt=""></div>
-    <div class="float-card" style="width:182px;height:122px;top:34%;right:-11%" data-float="{&quot;dx&quot;:-18,&quot;dy&quot;:-14,&quot;rot&quot;:-4,&quot;dur&quot;:18,&quot;delay&quot;:2}"><img src="assets/work-innocents.jpg" alt=""></div>
-    <div class="float-card" style="width:130px;height:130px;bottom:-16%;left:-7%" data-float="{&quot;dx&quot;:12,&quot;dy&quot;:-18,&quot;rot&quot;:6,&quot;dur&quot;:17,&quot;delay&quot;:1.5}"><img src="assets/work-sky.jpg" alt=""></div>
-    <div class="float-card" style="width:126px;height:166px;bottom:-14%;right:-8%" data-float="{&quot;dx&quot;:-16,&quot;dy&quot;:-10,&quot;rot&quot;:-3,&quot;dur&quot;:20,&quot;delay&quot;:.3}"><img src="assets/work-lolita.jpg" alt=""></div>
-    <div class="float-card" style="width:112px;height:112px;top:-24%;left:calc(50% - 56px)" data-float="{&quot;dx&quot;:14,&quot;dy&quot;:18,&quot;rot&quot;:5,&quot;dur&quot;:22,&quot;delay&quot;:2.4}"><img src="assets/work-boys.jpg" alt=""></div>
-    <div class="float-card" style="width:152px;height:102px;bottom:-22%;left:calc(50% - 76px)" data-float="{&quot;dx&quot;:-12,&quot;dy&quot;:20,&quot;rot&quot;:-6,&quot;dur&quot;:19,&quot;delay&quot;:1.8}"><img src="assets/work-innocents.jpg" alt=""></div>
-
     <div class="hero-text">
       <h1>I <em style="font-weight: bold;">cut</em>.<br>I <em style="font-weight: bold;">create</em>.<br>I make things <em style="font-weight: bold;">move</em>.</h1>
       <div class="sub" style="font-weight: bold; font-size: 20px;">&nbsp;Tenny Lu</div>
@@ -390,7 +380,7 @@
   <div class="work-inner">
     <div class="work-media" style="opacity: 0; transform: translateY(-50px) scale(1.06);">
       <span class="index">01</span>
-      <img src="assets/work-lolita.jpg" alt="Viral Food Videos">
+      <div class="work-thumb" style="background:linear-gradient(135deg,#1a4a7a,#4a90c8,#7fc4ff)"></div>
       <button class="play" aria-label="Play reel" onclick="window.location.href='watch.html?v=1'">
         <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>
       </button>
@@ -412,7 +402,7 @@
   <div class="work-inner">
     <div class="work-media" style="opacity: 0.479571; transform: translateY(-26.021459px) scale(1.031226);">
       <span class="index">02</span>
-      <img src="assets/work-boys.jpg" alt="Celebrity Interview">
+      <div class="work-thumb" style="background:linear-gradient(135deg,#2a5a8a,#5aa0d8,#8fd0ff)"></div>
       <button class="play" aria-label="Play reel" onclick="window.location.href='watch.html?v=2'">
         <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>
       </button>
@@ -434,7 +424,7 @@
   <div class="work-inner">
     <div class="work-media" style="opacity: 0; transform: translateY(50px) scale(1.06);">
       <span class="index">03</span>
-      <img src="assets/work-innocents.jpg" alt="Short Film Shooting">
+      <div class="work-thumb" style="background:linear-gradient(135deg,#0a3a6a,#3a80b8,#6fb0e8)"></div>
       <button class="play" aria-label="Play reel" onclick="window.location.href='watch.html?v=3'">
         <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>
       </button>
