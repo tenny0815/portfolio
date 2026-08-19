@@ -29,6 +29,19 @@
     -webkit-font-smoothing:antialiased;
     overflow-x:hidden;
   }
+  /* 背景遮罩 — 壓暗背景突出文字 */
+  body::before{
+    content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+    background:linear-gradient(180deg,rgba(8,22,42,.55) 0%,rgba(8,22,42,.35) 40%,rgba(8,22,42,.6) 100%);
+    backdrop-filter:blur(2px);
+  }
+  /* 確保內容在遮罩之上 */
+  header,.hero,.work,footer,.side-count,.overlay,.quick-about,.vmodal{position:relative;z-index:1}
+  header{z-index:60}
+  .overlay{z-index:100}
+  .quick-about{z-index:110}
+  .vmodal{z-index:120}
+  .progress{z-index:70}
 
   /* 柔和雲層 */
   .clouds{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
