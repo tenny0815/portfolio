@@ -111,13 +111,13 @@
   const data={
     '1':{src:'assets/work-01.mp4',cat:'Viral Content',title:'Viral Food Videos',desc:'A title that ignites curiosity, coupled with music that touches the heart, empowers a story to tell itself. Overjoyed that this video has reached <strong>over 200,000 views</strong> and <strong>3,000+ likes</strong>.'},
     '2':{src:'assets/work-02.mp4',cat:'Interview',title:'Celebrity Interview',desc:'<strong>Single-handedly directed</strong> the full production lifecycle for a celebrity interview — from concept design and scripting to cinematography and final video editing.'},
-    '3':{src:'assets/work-03.mp4',cat:'Short Film',title:'Short Film Shooting',desc:'From star-studded interviews to a full micro-movie: <strong>7 days of solo hustle</strong> covering concept, shooting, editing, and post-production. Every frame crafted from scratch.'},
+    '3':{src:'assets/work-03.mp4',cat:'Lifestyle',title:'Lifestyle Vlogs',desc:"Beyond my professional work, I'm passionate about capturing life through lifestyle vlogs. I genuinely love <strong>shooting and editing</strong>, using video as a way to document daily moments and tell engaging stories."},
     '4':{src:'assets/work-04.mp4',cat:'Viral Content',title:'Viral Food Videos',desc:'A title that ignites curiosity, coupled with music that touches the heart, empowers a story to tell itself. Overjoyed that this video has reached <strong>over 200,000 views</strong> and <strong>3,000+ likes</strong>.'}
   };
   const d=data[v]||data['1'];
   document.getElementById('player').src=d.src;
   document.getElementById('vCat').textContent=d.cat;
-  document.getElementById('vTitle').innerHTML=d.title.replace(/(Videos|Interview|Shooting)/,'<em>$1</em>');
+  document.getElementById('vTitle').innerHTML=d.title.replace(/(Videos|Interview|Shooting|Vlogs)/,'<em>$1</em>');
   document.getElementById('vDesc').innerHTML=d.desc;
   document.title=d.title+' — Tenny Lu';
 </script>
