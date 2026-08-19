@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tenny Lu — IG Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,600&family=Inter:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Inter',sans-serif;
+    color:#1d2a38;
+    background:url('assets/hero-ocean.jpg') no-repeat center center fixed;
+    background-size:cover;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+    display:flex;justify-content:center;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+    background:linear-gradient(180deg,rgba(255,255,255,.55) 0%,rgba(255,255,255,.4) 40%,rgba(255,255,255,.6) 100%);
+    backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  }
+
+  /* IG 打直版容器 — 9:16 比例 */
+  .ig-frame{
+    position:relative;z-index:5;
+    width:100%;max-width:430px;
+    min-height:100vh;
+    background:linear-gradient(180deg,rgba(255,255,255,.3),rgba(255,255,255,.15));
+    overflow-y:auto;
+  }
+
+  /* 頂部 */
+  .ig-header{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:1.2rem 1.4rem;position:sticky;top:0;z-index:60;
+    background:linear-gradient(180deg,rgba(255,255,255,.7),rgba(255,255,255,.3));
+    backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    border-bottom:1px solid rgba(29,42,56,.06);
+  }
+  .ig-brand{
+    font-family:'Cormorant Garamond',serif;font-size:.72rem;letter-spacing:.28em;
+    text-transform:uppercase;color:var(--ink,#1d2a38);opacity:.6;font-weight:400;
+  }
+  .ig-about-btn{
+    background:#0a2150;color:#fff;border:none;cursor:pointer;
+    font-family:'Inter',sans-serif;font-size:.62rem;letter-spacing:.18em;
+    text-transform:uppercase;font-weight:500;
+    padding:.5rem 1rem;border-radius:20px;text-decoration:none;
+    transition:.3s;
+  }
+  .ig-about-btn:hover{background:#2f7fff}
+
+  /* Hero 區 */
+  .ig-hero{
+    position:relative;min-height:78vh;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;padding:1.5rem 1.4rem;
+    overflow:visible;
+  }
+  .ig-hero-stage{position:relative;display:inline-block;max-width:100%}
+
+  /* 飄動圖片 — 無邊框 */
+  .float-card{
+    position:absolute;border:none;background:none;box-shadow:none;
+    border-radius:0;overflow:visible;opacity:0;
+    will-change:transform,opacity;pointer-events:none;z-index:1;
+  }
+  .float-card img{width:100%;height:auto;display:block;border:none;outline:none;border-radius:0;object-fit:contain}
+  .float-card::after{content:none}
+
+  .ig-hero-text{position:relative;z-index:5}
+  .ig-hero h1{
+    font-family:'Cormorant Garamond',serif;font-weight:600;
+    font-size:clamp(2.2rem,11vw,3.4rem);line-height:1.12;
+    color:#0a2150;text-shadow:0 2px 30px rgba(255,255,255,.6);
+  }
+  .ig-hero h1 em{font-style:italic;font-weight:600;color:#2f7fff;text-shadow:0 0 34px rgba(47,127,255,.4)}
+  .ig-hero .sub{
+    margin-top:1rem;font-size:.72rem;letter-spacing:.36em;
+    text-transform:uppercase;color:#4a6178;font-weight:600;
+  }
+
+  /* 作品卡片 */
+  .ig-work{
+    padding:1.5rem 1.4rem;
+    border-top:1px solid rgba(29,42,56,.06);
+  }
+  .ig-work-media{
+    position:relative;width:100%;aspect-ratio:9:16;
+    border-radius:12px;overflow:hidden;
+    border:none;background:none;box-shadow:none;
+    margin-bottom:1rem;
+  }
+  .ig-work-media img{width:100%;height:100%;object-fit:cover;display:block}
+  .ig-work-media .index{
+    position:absolute;top:.6rem;left:.6rem;z-index:5;
+    font-size:.6rem;letter-spacing:.2em;color:#fff;
+    background:rgba(10,33,80,.6);padding:.2rem .6rem;border-radius:20px;
+    backdrop-filter:blur(4px);
+  }
+  .ig-work-media .play{
+    position:absolute;inset:0;margin:auto;width:56px;height:56px;
+    border-radius:50%;border:1px solid rgba(255,255,255,.8);
+    background:rgba(255,255,255,.18);backdrop-filter:blur(6px);
+    cursor:pointer;display:flex;align-items:center;justify-content:center;
+    transition:.3s;
+  }
+  .ig-work-media .play:hover{background:rgba(255,255,255,.35);transform:scale(1.08)}
+  .ig-work-media .play svg{width:22px;height:22px;fill:#fff;margin-left:3px}
+  .ig-work-meta{text-align:center}
+  .ig-work-meta h2{
+    font-family:'Cormorant Garamond',serif;font-weight:600;
+    font-size:1.3rem;color:#0a2150;margin-bottom:.5rem;
+  }
+  .ig-work-meta h2 em{font-style:italic;color:#2f7fff;font-weight:600}
+  .ig-work-meta .desc{
+    font-size:.78rem;line-height:1.7;color:#4a6178;font-weight:400;
+    margin-bottom:.9rem;
+  }
+  .ig-work-meta .desc strong{color:#2f7fff;font-weight:600}
+  .ig-work-links{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap}
+  .ig-work-links a{
+    font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;
+    text-decoration:none;font-weight:500;
+    padding:.45rem 1rem;border-radius:20px;transition:.3s;
+    display:flex;align-items:center;gap:.3rem;
+  }
+  .ig-work-links a:first-child{
+    border:1px solid rgba(47,127,255,.4);color:#2f7fff;
+  }
+  .ig-work-links a:first-child:hover{background:rgba(47,127,255,.1)}
+  .ig-work-links a.video-link{
+    background:#0a2150;color:#fff;
+  }
+  .ig-work-links a.video-link:hover{background:#2f7fff}
+  .ig-work-links a svg{width:12px;height:12px;fill:currentColor}
+
+  /* 底部 */
+  .ig-footer{
+    text-align:center;padding:2rem 1.4rem 2.5rem;
+    border-top:1px solid rgba(29,42,56,.06);
+  }
+  .ig-footer h3{
+    font-family:'Cormorant Garamond',serif;font-weight:600;
+    font-size:1.4rem;color:#0a2150;margin-bottom:.6rem;
+  }
+  .ig-footer h3 em{font-style:italic;color:#2f7fff}
+  .ig-footer .bio{
+    font-size:.76rem;line-height:1.8;color:#4a6178;margin-bottom:1.2rem;max-width:300px;margin-left:auto;margin-right:auto;
+  }
+  .ig-footer .bio strong{color:#2f7fff;font-weight:600}
+  .ig-footer .contact{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:1rem}
+  .ig-footer .contact a{
+    font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;
+    color:#4a6178;text-decoration:none;transition:color .3s;
+  }
+  .ig-footer .contact a:hover{color:#2f7fff}
+  .ig-footer .copyright{font-size:.6rem;color:#8a9aab;letter-spacing:.1em}
+
+  /* 進度條 */
+  .ig-progress{
+    position:fixed;top:0;left:50%;transform:translateX(-50%);
+    height:2px;width:0;max-width:430px;
+    background:#2f7fff;z-index:70;transition:width .1s linear;
+  }
+
+  /* 音樂按鈕 */
+  .ig-music-toggle{
+    position:fixed;bottom:1rem;right:1rem;z-index:200;
+    width:40px;height:40px;border-radius:50%;
+    border:1px solid rgba(29,42,56,.2);
+    background:rgba(255,255,255,.5);backdrop-filter:blur(8px);
+    cursor:pointer;display:flex;align-items:center;justify-content:center;
+    transition:.3s;
+  }
+  .ig-music-toggle svg{width:16px;height:16px;fill:#1d2a38}
+</style>
+</head>
+<body>
+
+<div class="ig-progress" id="igProgress"></div>
+
+<div class="ig-frame" id="igFrame">
+
+  <!-- 頂部 -->
+  <header class="ig-header">
+    <div class="ig-brand">Content · Production · Editor</div>
+    <a href="about.html" class="ig-about-btn">about me</a>
+  </header>
+
+  <!-- Hero -->
+  <section class="ig-hero">
+    <div class="ig-hero-stage" id="igHeroStage">
+      <div class="float-card" data-float='{"dx":10,"dy":-8,"rot":4,"dur":16,"delay":0.2}' style="width:55px;top:-6%;left:-8%">
+        <img src="assets/float-01.jpg" alt="">
+      </div>
+      <div class="float-card" data-float='{"dx":-8,"dy":6,"rot":-5,"dur":18,"delay":0.5}' style="width:60px;top:-8%;right:-6%">
+        <img src="assets/float-02.jpg" alt="">
+      </div>
+      <div class="float-card" data-float='{"dx":12,"dy":6,"rot":3,"dur":20,"delay":0.8}' style="width:52px;top:40%;left:-12%">
+        <img src="assets/float-03.jpg" alt="">
+      </div>
+      <div class="float-card" data-float='{"dx":-10,"dy":-8,"rot":-4,"dur":17,"delay":1.1}' style="width:58px;top:42%;right:-12%">
+        <img src="assets/float-04.jpg" alt="">
+      </div>
+      <div class="float-card" data-float='{"dx":8,"dy":10,"rot":5,"dur":19,"delay":1.4}' style="width:50px;bottom:-6%;left:-6%">
+        <img src="assets/float-05.jpg" alt="">
+      </div>
+      <div class="float-card" data-float='{"dx":-8,"dy":-6,"rot":-3,"dur":21,"delay":1.7}' style="width:54px;bottom:-4%;right:-6%">
+        <img src="assets/float-06.jpg" alt="">
+      </div>
+      <div class="ig-hero-text">
+        <h1>I <em style="font-weight:bold">cut</em>.<br>I <em style="font-weight:bold">create</em>.<br>I make things <em style="font-weight:bold">move</em>.</h1>
+        <div class="sub">Tenny Lu</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Work 01 -->
+  <section class="ig-work">
+    <div class="ig-work-media" onclick="window.location.href='watch.html?v=1'">
+      <span class="index">01</span>
+      <img src="assets/work-img-01.jpg" alt="Work 01">
+      <button class="play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg></button>
+    </div>
+    <div class="ig-work-meta">
+      <h2>Viral Food <em>Videos</em></h2>
+      <p class="desc">A title that ignites curiosity, coupled with music that touches the heart, empowers a story to tell itself. Overjoyed that this video has reached <strong>over 200,000 views</strong> and <strong>3,000+ likes</strong>.</p>
+      <div class="ig-work-links">
+        <a href="watch.html?v=1" class="video-link"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>Watch Reel</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Work 02 -->
+  <section class="ig-work">
+    <div class="ig-work-media" onclick="window.location.href='watch.html?v=2'">
+      <span class="index">02</span>
+      <img src="assets/work-img-02.jpg" alt="Work 02">
+      <button class="play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg></button>
+    </div>
+    <div class="ig-work-meta">
+      <h2>Celebrity <em>Interview</em></h2>
+      <p class="desc"><strong>Single-handedly directed</strong> the full production lifecycle for a celebrity interview—from concept design and scripting to cinematography and final video editing.</p>
+      <div class="ig-work-links">
+        <a href="watch.html?v=2" class="video-link"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>Watch Reel</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Work 03 -->
+  <section class="ig-work">
+    <div class="ig-work-media" onclick="window.location.href='watch.html?v=3'">
+      <span class="index">03</span>
+      <img src="assets/work-img-03.jpg" alt="Work 03">
+      <button class="play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg></button>
+    </div>
+    <div class="ig-work-meta">
+      <h2>Short Film <em>Shooting</em></h2>
+      <p class="desc">From star-studded interviews to a full micro-movie: <strong>7 days of solo hustle</strong> covering concept, shooting, editing, and post-production. Every frame crafted from scratch.</p>
+      <div class="ig-work-links">
+        <a href="watch.html?v=3" class="video-link"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>Watch Reel</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="ig-footer">
+    <h3>Tenny <em>Lu</em></h3>
+    <p class="bio">With <strong>2 years of video editing</strong> and post-production experience, I have successfully edited over <strong>100+ videos</strong>. Always excited for new collaborations!</p>
+    <div class="contact">
+      <a href="mailto:tennylu2000330@gmail.com">Email</a>
+      <a href="https://instagram.com/tenny_is_happy" target="_blank" rel="noopener">Instagram</a>
+      <a href="about.html">About</a>
+    </div>
+    <div class="copyright">© 2026 Tenny Lu</div>
+  </footer>
+
+</div>
+
+<!-- 背景音樂 -->
+<audio id="bgm" loop preload="auto">
+  <source src="assets/bgm.mp3" type="audio/mpeg">
+</audio>
+<button class="ig-music-toggle" id="musicToggle">
+  <svg id="musicIcon" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+</button>
+
+<script>
+  // 飄動圖片動畫
+  (function(){
+    const cards=[...document.querySelectorAll('.float-card')];
+    const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    cards.forEach((card,i)=>{
+      const cfg=JSON.parse(card.dataset.float||'{}');
+      const dx=cfg.dx||0,dy=cfg.dy||0,rot=cfg.rot||0;
+      const dur=(cfg.dur||20)*1000,delay=(cfg.delay||0)*1000;
+      card.animate(
+        [{opacity:0,transform:'translate(0,20px) scale(.9)'},{opacity:1,transform:'translate(0,0) scale(1)'}],
+        {duration:1400,delay,fill:'forwards',easing:'cubic-bezier(.2,.7,.2,1)'}
+      );
+      if(reduced){card.style.opacity=.8;return;}
+      const drift=card.animate(
+        [
+          {transform:'translate(0,0) rotate(0deg)'},
+          {transform:`translate(${dx}px,${dy}px) rotate(${rot}deg)`},
+          {transform:`translate(${-dx*.6}px,${-dy*.8}px) rotate(${-rot}deg)`},
+          {transform:'translate(0,0) rotate(0deg)'}
+        ],
+        {duration:dur,iterations:Infinity,easing:'ease-in-out'}
+      );
+      const hero=document.querySelector('.ig-hero');
+      const io=new IntersectionObserver(es=>es.forEach(e=>{drift[e.isIntersecting?'play':'pause']()}),{threshold:0});
+      io.observe(hero);
+    });
+  })();
+
+  // 進度條
+  const igProgress=document.getElementById('igProgress');
+  const igFrame=document.getElementById('igFrame');
+  igFrame.addEventListener('scroll',()=>{
+    const max=igFrame.scrollHeight-igFrame.clientHeight;
+    const p=igFrame.scrollTop/max*100;
+    igProgress.style.width=p+'%';
+  });
+
+  // 背景音樂
+  const bgm=document.getElementById('bgm');
+  const musicToggle=document.getElementById('musicToggle');
+  const musicIcon=document.getElementById('musicIcon');
+  let isPlaying=false;
+  const playIcon='<path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>';
+  const pauseIcon='<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
+
+  function startMusic(){
+    bgm.volume=0.4;
+    bgm.play().then(()=>{isPlaying=true;musicIcon.innerHTML=playIcon;})
+    .catch(()=>{isPlaying=false;musicIcon.innerHTML=playIcon;});
+  }
+  function toggleMusic(){
+    if(isPlaying){bgm.pause();isPlaying=false;musicIcon.innerHTML=playIcon;}
+    else{bgm.volume=0.4;bgm.play().then(()=>{isPlaying=true;musicIcon.innerHTML=playIcon;}).catch(()=>{});}
+  }
+  musicToggle.addEventListener('click',toggleMusic);
+  startMusic();
+  document.addEventListener('click',function once(){
+    if(!isPlaying){bgm.volume=0.4;bgm.play().then(()=>{isPlaying=true;musicIcon.innerHTML=playIcon;}).catch(()=>{});}
+    document.removeEventListener('click',once);
+  },{once:true});
+</script>
+
+</body>
+</html>
