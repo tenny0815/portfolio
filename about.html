@@ -46,9 +46,30 @@
     padding:2rem 1.5rem 3rem;position:relative;z-index:5;
   }
   .about-wrap{
-    display:flex;align-items:center;justify-content:center;gap:clamp(1.5rem,4vw,3rem);
-    max-width:880px;width:100%;
+    display:flex;align-items:center;justify-content:center;gap:clamp(1rem,3vw,2.5rem);
+    max-width:960px;width:100%;position:relative;
   }
+
+  /* 抠图浮动图片 — 无边框 */
+  .deco-float{
+    width:clamp(110px,14vw,180px);flex-shrink:0;
+    pointer-events:none;
+  }
+  .deco-float img{
+    width:100%;height:auto;display:block;
+    filter:drop-shadow(0 16px 40px rgba(10,33,80,.22));
+  }
+  .deco-left{animation:floatL 7s ease-in-out infinite}
+  .deco-right{animation:floatR 7s ease-in-out infinite}
+  @keyframes floatL{
+    0%,100%{transform:translateY(0) rotate(-5deg)}
+    50%{transform:translateY(-18px) rotate(3deg)}
+  }
+  @keyframes floatR{
+    0%,100%{transform:translateY(0) rotate(5deg)}
+    50%{transform:translateY(-14px) rotate(-3deg)}
+  }
+
   /* 文字卡片 */
   .about-card{
     flex:1;text-align:center;
@@ -87,17 +108,6 @@
   .contact-item a{color:#2f7fff;text-decoration:none;font-size:1.05rem;font-weight:500;border-bottom:1px solid rgba(47,127,255,.4);padding-bottom:2px;transition:border-color .3s}
   .contact-item a:hover{border-color:#2f7fff}
 
-  /* 裝飾圖片 */
-  .about-deco{
-    width:clamp(140px,18vw,220px);height:clamp(140px,18vw,220px);flex-shrink:0;
-    border-radius:16px;overflow:hidden;
-    box-shadow:0 30px 70px -20px rgba(10,33,80,.3);
-    animation:floatDeco 6s ease-in-out infinite;
-    border:3px solid rgba(255,255,255,.6);
-  }
-  .about-deco img{width:100%;height:100%;object-fit:cover;display:block}
-  @keyframes floatDeco{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-12px) rotate(2deg)}}
-
   /* 底部 */
   .footer-contact{
     text-align:center;padding:2rem 1.5rem 2.5rem;position:relative;z-index:5;
@@ -109,10 +119,12 @@
   }
   .footer-contact a:hover{color:#2f7fff}
 
-  /* 手機版：裝飾圖移到卡片上方 */
+  /* 手機版：圖片移到卡片上下 */
   @media(max-width:640px){
     .about-wrap{flex-direction:column}
-    .about-deco{order:-1}
+    .deco-float{width:100px}
+    .deco-left{order:-1}
+    .deco-right{order:1}
   }
 </style>
 </head>
@@ -128,6 +140,9 @@
 
 <main>
   <div class="about-wrap">
+    <div class="deco-float deco-left">
+      <img src="assets/profile-deco-cutout.png" alt="Portrait">
+    </div>
     <div class="about-card">
       <div class="kicker">Profile</div>
       <h1>Welcome to my <em>world</em>!</h1>
@@ -143,8 +158,8 @@
         <a href="https://instagram.com/tenny_is_happy" target="_blank" rel="noopener">@tenny_is_happy</a>
       </div>
     </div>
-    <div class="about-deco">
-      <img src="assets/profile-deco.png" alt="Portrait">
+    <div class="deco-float deco-right">
+      <img src="assets/profile-deco-cutout.png" alt="Portrait">
     </div>
   </div>
 </main>
