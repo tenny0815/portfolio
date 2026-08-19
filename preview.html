@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en" class=""><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tenny Lu — Post-Production Editor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&amp;family=Inter:wght@200;300;400;500&amp;display=swap" rel="stylesheet">
+<style>
+  :root{
+    --sky-top:#cfe9fb;
+    --sky-mid:#a9d4f2;
+    --sky-bottom:#7fb8e6;
+    --ink:#1d2a38;          /* 深藍灰 文字 */
+    --ink-soft:#4a6178;
+    --line:rgba(29,42,56,.14);
+    --paper:rgba(255,255,255,.55);
+    --paper-solid:#f4f9ff;
+    --accent:#2f6fa8;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Inter',sans-serif;
+    color:var(--ink);
+    background:linear-gradient(180deg,var(--sky-top) 0%,var(--sky-mid) 48%,var(--sky-bottom) 100%);
+    background-attachment:fixed;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+
+  /* 柔和雲層 */
+  .clouds{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+  .cloud{position:absolute;background:radial-gradient(ellipse at center,rgba(255,255,255,.55),rgba(255,255,255,0) 70%);filter:blur(20px);border-radius:50%}
+  .c1{width:60vw;height:32vw;top:8%;left:-10%;animation:drift 60s linear infinite}
+  .c2{width:48vw;height:26vw;top:42%;right:-12%;animation:drift2 80s linear infinite}
+  .c3{width:40vw;height:22vw;top:75%;left:10%;animation:drift 95s linear infinite}
+  @keyframes drift{from{transform:translateX(0)}to{transform:translateX(18vw)}}
+  @keyframes drift2{from{transform:translateX(0)}to{transform:translateX(-18vw)}}
+
+  /* 頂部列 */
+  header{
+    position:fixed;top:0;left:0;right:0;z-index:60;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:1.9rem clamp(1.5rem,5vw,4rem);
+    mix-blend-mode:normal;
+  }
+  .brand{
+    font-family:'Cormorant Garamond',serif;
+    font-size:1.05rem;letter-spacing:.32em;text-transform:uppercase;
+    color:var(--ink);opacity:.7;font-weight:400;
+  }
+  .name-btn{
+    background:none;border:none;cursor:pointer;
+    font-family:'Cormorant Garamond',serif;
+    font-size:1.5rem;letter-spacing:.06em;
+    color:var(--ink);font-weight:500;
+    display:flex;align-items:center;gap:.5rem;
+    position:relative;padding-bottom:3px;
+    transition:opacity .3s ease;
+  }
+  .name-btn::after{
+    content:"";position:absolute;left:.5rem;right:0;bottom:0;height:1px;
+    background:var(--ink);transform:scaleX(0);transform-origin:left;
+    transition:transform .35s ease;
+  }
+  .name-btn:hover{opacity:1}
+  .name-btn:hover::after{transform:scaleX(1)}
+  .name-btn .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);display:inline-block}
+
+  /* 進度指示 */
+  .progress{
+    position:fixed;left:0;top:0;height:2px;width:0;
+    background:var(--accent);z-index:70;transition:width .1s linear;
+  }
+
+  /* 開場 Hero */
+  .hero{
+    position:relative;z-index:5;
+    min-height:100vh;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;text-align:center;
+    padding:6rem 1.5rem 2rem;
+  }
+  .hero-stage{position:relative;display:inline-block;max-width:900px}
+  /* 飄動圖片卡片 — 圍繞文字 */
+  .float-card{
+    position:absolute;border-radius:4px;overflow:hidden;
+    box-shadow:0 18px 50px -18px rgba(20,50,80,.45);
+    opacity:0;will-change:transform,opacity;
+    pointer-events:none;z-index:1;
+    background:rgba(255,255,255,.3);
+  }
+  .float-card img{width:100%;height:100%;object-fit:cover;display:block}
+  .float-card::after{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(160deg,rgba(207,233,251,.12),rgba(127,184,230,.18));
+    mix-blend-mode:overlay;
+  }
+  /* 中央文字安全區 — 圖片不遮擋 */
+  .hero-text{position:relative;z-index:5}
+  .hero h1{
+    font-family:'Cormorant Garamond',serif;
+    font-weight:600;
+    font-size:clamp(2.6rem,8vw,6.2rem);
+    line-height:1.12;letter-spacing:.005em;
+    color:#0a2150;
+    text-shadow:0 0 50px rgba(255,255,255,.9),0 2px 10px rgba(10,33,80,.18);
+  }
+  .hero h1 em{font-style:italic;font-weight:600;color:#2f7fff;text-shadow:0 0 34px rgba(47,127,255,.5)}
+  .hero .sub{
+    margin-top:1.4rem;font-size:.82rem;letter-spacing:.42em;
+    text-transform:uppercase;color:var(--ink-soft);font-weight:300;
+  }
+  .scroll-cue{
+    position:absolute;bottom:2.4rem;left:50%;transform:translateX(-50%);
+    display:flex;flex-direction:column;align-items:center;gap:.7rem;
+    color:var(--ink-soft);font-size:.66rem;letter-spacing:.3em;text-transform:uppercase;
+  }
+  .scroll-cue .line{width:1px;height:46px;background:var(--ink-soft);animation:cue 2.2s ease-in-out infinite;transform-origin:top}
+  @keyframes cue{0%,100%{transform:scaleY(.3);opacity:.3}50%{transform:scaleY(1);opacity:1}}
+
+  /* 作品區塊 — 滾動出現又消失 */
+  .work{
+    position:relative;z-index:5;
+    min-height:130vh;display:flex;align-items:center;justify-content:center;
+    padding:8rem 1.5rem;
+  }
+  .work-inner{
+    width:100%;max-width:1100px;
+    display:grid;grid-template-columns:1fr;gap:2rem;align-items:center;
+    text-align:center;
+  }
+  .work-media{
+    position:relative;width:100%;max-width:880px;margin:0 auto;
+    aspect-ratio:16/9;border-radius:4px;overflow:hidden;
+    background:rgba(255,255,255,.25);
+    box-shadow:0 40px 90px -40px rgba(20,50,80,.45);
+    opacity:0;transform:translateY(60px) scale(1.06);
+    transition:opacity .2s linear,transform .2s linear;
+    will-change:opacity,transform;
+  }
+  .work-media img{width:100%;height:100%;object-fit:cover;display:block}
+  .work-media .play{
+    position:absolute;inset:0;margin:auto;width:78px;height:78px;
+    border-radius:50%;border:1px solid rgba(255,255,255,.8);
+    background:rgba(255,255,255,.18);backdrop-filter:blur(6px);
+    display:flex;align-items:center;justify-content:center;cursor:pointer;
+    transition:transform .35s ease,background .35s ease;
+  }
+  .work-media .play:hover{transform:scale(1.08);background:rgba(255,255,255,.34)}
+  .work-media .play svg{width:26px;height:26px;fill:#fff;margin-left:3px}
+  .work-media .index{
+    position:absolute;top:1.2rem;left:1.4rem;
+    font-family:'Cormorant Garamond',serif;font-size:1.1rem;letter-spacing:.2em;
+    color:#fff;text-shadow:0 1px 8px rgba(0,0,0,.4);
+  }
+
+  .work-meta{max-width:560px;margin:0 auto}
+  .work-meta .cat{
+    font-size:.7rem;letter-spacing:.34em;text-transform:uppercase;
+    color:var(--ink-soft);font-weight:400;
+  }
+  .work-meta h2{
+    font-family:'Cormorant Garamond',serif;font-weight:600;
+    font-size:clamp(2.1rem,4.6vw,3.4rem);line-height:1.05;margin:.5rem 0 .3rem;
+    color:#0a2150;letter-spacing:.01em;
+  }
+  .work-meta h2 em{font-style:italic;color:#2f7fff;font-weight:600}
+  .work-meta .desc{
+    font-size:1.02rem;line-height:1.8;color:var(--ink);font-weight:400;
+    max-width:460px;margin:.8rem auto 1.6rem;
+  }
+  .work-meta .desc strong{
+    color:#2f7fff;font-weight:600;
+    background:linear-gradient(transparent 62%,rgba(47,127,255,.16) 62%);
+    padding:0 2px;
+  }
+  .work-links{display:flex;gap:1.6rem;justify-content:center;align-items:center}
+  .work-links a{
+    font-size:.74rem;letter-spacing:.26em;text-transform:uppercase;
+    color:var(--ink);text-decoration:none;font-weight:400;
+    border-bottom:1px solid var(--ink);padding-bottom:3px;
+    transition:opacity .3s ease;
+  }
+  .work-links a:hover{opacity:.5}
+  .work-links .video-link{
+    display:flex;align-items:center;gap:.5rem;
+    background:#0a2150;color:#fff !important;border:none;
+    padding:.7rem 1.4rem;border-radius:30px;font-weight:500;
+    transition:transform .3s ease,box-shadow .3s ease,background .3s ease;
+  }
+  .work-links .video-link:hover{opacity:1;transform:translateY(-2px);background:#2f7fff;box-shadow:0 10px 26px -8px rgba(47,127,255,.6)}
+  .work-links .video-link svg{width:13px;height:13px;fill:#fff}
+
+  /* 側邊作品計數 */
+  .side-count{
+    position:fixed;left:clamp(1.5rem,5vw,4rem);bottom:2rem;z-index:40;
+    font-family:'Cormorant Garamond',serif;font-size:.95rem;letter-spacing:.12em;
+    color:var(--ink-soft);
+  }
+  .side-count b{color:var(--ink);font-weight:500}
+
+  /* 個人資料 overlay */
+  .overlay{
+    position:fixed;inset:0;z-index:100;
+    background:linear-gradient(160deg,rgba(238,247,255,.97),rgba(206,231,250,.97));
+    backdrop-filter:blur(14px);
+    opacity:0;visibility:hidden;transition:opacity .5s ease,visibility .5s ease;
+    overflow-y:auto;
+  }
+  .overlay.open{opacity:1;visibility:visible}
+  .overlay-wrap{
+    max-width:880px;margin:0 auto;padding:clamp(2rem,8vh,6rem) clamp(1.5rem,6vw,3rem);
+  }
+  .ov-close{
+    position:fixed;top:1.9rem;right:clamp(1.5rem,5vw,4rem);
+    background:none;border:none;cursor:pointer;
+    font-size:1.5rem;color:var(--ink);line-height:1;
+    width:42px;height:42px;border:1px solid var(--line);border-radius:50%;
+    display:flex;align-items:center;justify-content:center;transition:.3s;
+  }
+  .ov-close:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .ov-kicker{font-size:.72rem;letter-spacing:.34em;text-transform:uppercase;color:var(--accent);font-weight:500}
+  .ov-name{
+    font-family:'Cormorant Garamond',serif;font-weight:300;
+    font-size:clamp(2.6rem,7vw,4.6rem);line-height:1;margin:.6rem 0 .3rem;color:var(--ink);
+  }
+  .ov-role{font-size:.95rem;letter-spacing:.12em;color:var(--ink-soft);font-weight:300;margin-bottom:2.6rem}
+  .ov-intro{font-size:1.05rem;line-height:1.85;color:var(--ink-soft);font-weight:300;max-width:620px;margin-bottom:3rem}
+  .ov-welcome{margin-bottom:2rem;padding:1.8rem 2rem;border-radius:14px;background:linear-gradient(135deg,rgba(47,127,255,.1),rgba(207,233,251,.35));border:1px solid rgba(47,127,255,.18)}
+  .ov-welcome h3{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(1.7rem,3.4vw,2.4rem);line-height:1.1;color:#0a2150;margin-bottom:.8rem}
+  .ov-welcome h3 em{font-style:italic;color:#2f7fff;font-weight:600}
+  .ov-welcome p{font-size:1.08rem;line-height:1.85;color:var(--ink);font-weight:400;max-width:600px}
+  .ov-welcome p strong{color:#2f7fff;font-weight:600;background:linear-gradient(transparent 62%,rgba(47,127,255,.16) 62%);padding:0 2px}
+  .ov-section-title{
+    font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:400;
+    color:var(--ink);margin:2.4rem 0 1.4rem;display:flex;align-items:center;gap:1rem;
+  }
+  .ov-section-title::after{content:"";flex:1;height:1px;background:var(--line)}
+  .timeline{position:relative;padding-left:1.4rem}
+  .timeline::before{content:"";position:absolute;left:3px;top:6px;bottom:6px;width:1px;background:var(--line)}
+  .tl-item{position:relative;padding-bottom:1.8rem}
+  .tl-item::before{content:"";position:absolute;left:-1.4rem;top:7px;width:7px;height:7px;border-radius:50%;background:var(--accent)}
+  .tl-year{font-size:.72rem;letter-spacing:.2em;color:var(--accent);font-weight:500;text-transform:uppercase}
+  .tl-title{font-size:1.08rem;color:var(--ink);font-weight:400;margin:.2rem 0}
+  .tl-org{font-size:.88rem;color:var(--ink-soft);font-weight:300}
+  .ov-contact{margin-top:2.8rem;padding-top:1.8rem;border-top:1px solid var(--line)}
+  .ov-contact a{color:var(--accent);text-decoration:none;font-size:.92rem;border-bottom:1px solid var(--accent);padding-bottom:2px}
+  .ov-contact-list{display:flex;flex-direction:column;gap:1rem;margin-top:.4rem}
+  .ov-contact-item{display:flex;align-items:baseline;gap:1.2rem;flex-wrap:wrap}
+  .ov-contact-label{font-size:.72rem;letter-spacing:.26em;text-transform:uppercase;color:var(--ink-soft);font-weight:500;min-width:90px}
+  .ov-contact-item a{color:#2f7fff;text-decoration:none;font-size:1.05rem;font-weight:500;border-bottom:1px solid rgba(47,127,255,.4);padding-bottom:2px;transition:border-color .3s ease}
+  .ov-contact-item a:hover{border-color:#2f7fff}
+
+  /* 影片 modal */
+  .vmodal{
+    position:fixed;inset:0;z-index:120;display:none;
+    align-items:center;justify-content:center;
+    background:rgba(10,24,40,.82);backdrop-filter:blur(6px);padding:2rem;
+  }
+  .vmodal.open{display:flex}
+  .vmodal video{width:100%;max-width:1000px;max-height:80vh;border-radius:4px;box-shadow:0 40px 100px rgba(0,0,0,.5)}
+  .vmodal .vclose{position:absolute;top:1.6rem;right:1.8rem;color:#fff;background:none;border:none;font-size:2rem;cursor:pointer;line-height:1}
+
+  footer{
+    position:relative;z-index:5;text-align:center;padding:3rem 1.5rem 2.5rem;
+    font-size:.72rem;letter-spacing:.26em;text-transform:uppercase;color:var(--ink-soft);
+  }
+
+  @media (max-width:640px){
+    .work{min-height:115vh;padding:6rem 1.2rem}
+    .work-links{flex-direction:column;gap:1rem}
+    .side-count{display:none}
+  }
+</style>
+<style id="trae-panel-enter-style">
+        @keyframes trae-panel-enter {
+          from { opacity: 0; transform: scale(0.95); }
+          to { opacity: 1; transform: scale(1); }
+        }
+      </style><script src="https://unpkg.byted-static.com/html2canvas/1.4.1/dist/html2canvas.min.js"></script></head>
+<body>
+
+<div class="clouds"><div class="cloud c1"></div><div class="cloud c2"></div><div class="cloud c3"></div></div>
+
+<div class="progress" id="progress" style="width: 41.845688%;"></div>
+
+<header>
+  <div class="brand">Post&nbsp;·&nbsp;Production&nbsp;·&nbsp;Editor</div>
+  <button class="name-btn" id="openAbout"><span class="dot"></span>Tenny Lu</button>
+</header>
+
+<!-- 開場 -->
+<section class="hero">
+  <div class="hero-stage" id="heroStage">
+    <!-- 飄動圖片（圍繞文字） -->
+    <!-- 飄動圖片（圍繞文字 — 真實作品） -->
+    <div class="float-card" style="width:175px;height:118px;top:-14%;left:-9%" data-float="{&quot;dx&quot;:18,&quot;dy&quot;:-12,&quot;rot&quot;:4,&quot;dur&quot;:16,&quot;delay&quot;:0}"><img src="assets/work-lolita.jpg" alt=""></div>
+    <div class="float-card" style="width:122px;height:162px;top:-18%;right:-6%" data-float="{&quot;dx&quot;:-14,&quot;dy&quot;:16,&quot;rot&quot;:-5,&quot;dur&quot;:19,&quot;delay&quot;:1.2}"><img src="assets/work-sky.jpg" alt=""></div>
+    <div class="float-card" style="width:116px;height:150px;top:30%;left:-13%" data-float="{&quot;dx&quot;:22,&quot;dy&quot;:10,&quot;rot&quot;:3,&quot;dur&quot;:21,&quot;delay&quot;:.6}"><img src="assets/work-boys.jpg" alt=""></div>
+    <div class="float-card" style="width:182px;height:122px;top:34%;right:-11%" data-float="{&quot;dx&quot;:-18,&quot;dy&quot;:-14,&quot;rot&quot;:-4,&quot;dur&quot;:18,&quot;delay&quot;:2}"><img src="assets/work-innocents.jpg" alt=""></div>
+    <div class="float-card" style="width:130px;height:130px;bottom:-16%;left:-7%" data-float="{&quot;dx&quot;:12,&quot;dy&quot;:-18,&quot;rot&quot;:6,&quot;dur&quot;:17,&quot;delay&quot;:1.5}"><img src="assets/work-sky.jpg" alt=""></div>
+    <div class="float-card" style="width:126px;height:166px;bottom:-14%;right:-8%" data-float="{&quot;dx&quot;:-16,&quot;dy&quot;:-10,&quot;rot&quot;:-3,&quot;dur&quot;:20,&quot;delay&quot;:.3}"><img src="assets/work-lolita.jpg" alt=""></div>
+    <div class="float-card" style="width:112px;height:112px;top:-24%;left:calc(50% - 56px)" data-float="{&quot;dx&quot;:14,&quot;dy&quot;:18,&quot;rot&quot;:5,&quot;dur&quot;:22,&quot;delay&quot;:2.4}"><img src="assets/work-boys.jpg" alt=""></div>
+    <div class="float-card" style="width:152px;height:102px;bottom:-22%;left:calc(50% - 76px)" data-float="{&quot;dx&quot;:-12,&quot;dy&quot;:20,&quot;rot&quot;:-6,&quot;dur&quot;:19,&quot;delay&quot;:1.8}"><img src="assets/work-innocents.jpg" alt=""></div>
+
+    <div class="hero-text">
+      <h1>I <em style="font-weight: bold;">cut</em>.<br>I <em style="font-weight: bold;">create</em>.<br>I make things <em style="font-weight: bold;">move</em>.</h1>
+      <div class="sub" style="font-weight: bold; font-size: 20px;">&nbsp;Tenny Lu</div>
+    </div>
+  </div>
+  <div class="scroll-cue"><span>Scroll</span><span class="line"></span></div>
+</section>
+
+<!-- 作品（佔位，之後換成真實作品） -->
+<section class="work" data-work="">
+  <div class="work-inner">
+    <div class="work-media" style="opacity: 0; transform: translateY(-50px) scale(1.06);">
+      <span class="index">01</span>
+      <img src="assets/work-lolita.jpg" alt="Viral Food Videos">
+      <button class="play" aria-label="Play reel" data-video="assets/work-01.mp4">
+        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>
+      </button>
+    </div>
+    <div class="work-meta">
+      <h2>Viral Food <em>Videos</em></h2>
+      <p class="desc">A title that ignites curiosity, coupled with music that touches the heart, empowers a story to tell itself. Overjoyed that this video has reached <strong>over 200,000 views</strong> and <strong>3,000+ likes</strong>.</p>
+      <div class="work-links">
+        <a href="#" target="_blank" rel="noopener">View Project</a>
+        <a href="#" class="video-link" data-video="assets/work-01.mp4">
+          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>Watch Reel
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="work" data-work="">
+  <div class="work-inner">
+    <div class="work-media" style="opacity: 0.479571; transform: translateY(-26.021459px) scale(1.031226);">
+      <span class="index">02</span>
+      <img src="assets/work-boys.jpg" alt="Celebrity Interview">
+      <button class="play" aria-label="Play reel" data-video="assets/work-02.mp4">
+        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>
+      </button>
+    </div>
+    <div class="work-meta">
+      <h2>Celebrity <em>Interview</em></h2>
+      <p class="desc"><strong>Single-handedly directed</strong> the full production lifecycle for a celebrity interview—from concept design and scripting to cinematography and final video editing.</p>
+      <div class="work-links">
+        <a href="#" target="_blank" rel="noopener">View Project</a>
+        <a href="#" class="video-link" data-video="assets/work-02.mp4">
+          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>Watch Reel
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="work" data-work="">
+  <div class="work-inner">
+    <div class="work-media" style="opacity: 0; transform: translateY(50px) scale(1.06);">
+      <span class="index">03</span>
+      <img src="assets/work-innocents.jpg" alt="Short Film Shooting">
+      <button class="play" aria-label="Play reel" data-video="assets/work-03.mp4">
+        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>
+      </button>
+    </div>
+    <div class="work-meta">
+      <h2>Short Film <em>Shooting</em></h2>
+      <p class="desc">From star-studded interviews to a full micro-movie: <strong>7 days of solo hustle</strong> covering concept, shooting, editing, and post-production. Every frame crafted from scratch.</p>
+      <div class="work-links">
+        <a href="#" target="_blank" rel="noopener">View Project</a>
+        <a href="#" class="video-link" data-video="assets/work-03.mp4">
+          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>Watch Reel
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>Tenny Lu · Post-Production Editor · <a href="#" id="openAboutFooter" style="color:var(--ink-soft);text-decoration:none;border-bottom:1px solid var(--line);padding-bottom:2px">About</a> · © 2026</footer>
+
+<div class="side-count"><b id="curIdx">01</b> / 03</div>
+
+<!-- 個人資料 overlay -->
+<div class="overlay" id="about">
+  <div class="overlay-wrap">
+    <button class="ov-close" id="closeAbout" aria-label="Close">×</button>
+    <div class="ov-kicker">Profile</div>
+    <h2 class="ov-name">Tenny Lu</h2>
+    <div class="ov-role">Post-Production Editor · Colour &amp; Story</div>
+
+    <div class="ov-welcome">
+      <h3>Welcome to my <em>personal space</em>!</h3>
+      <p>With <strong>2 years of video editing and post-production experience</strong>, I have successfully edited over <strong>100+ videos</strong>. I'm always excited for new collaborations!</p>
+    </div>
+
+    <div class="ov-section-title">Education</div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-year">2018 — 2022</div>
+        <div class="tl-title">BFA in Film &amp; Television</div>
+        <div class="tl-org"><em style="color:var(--accent)">[你的大學名稱]</em> · 請填入實際學校</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2021</div>
+        <div class="tl-title">Editing &amp; Colour Grading Certificate</div>
+        <div class="tl-org"><em style="color:var(--accent)">[進修課程 / 工作坊]</em></div>
+      </div>
+    </div>
+
+    <div class="ov-section-title">Experience</div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-year">2024 — Present</div>
+        <div class="tl-title">Senior Editor</div>
+        <div class="tl-org"><em style="color:var(--accent)">[公司名稱]</em> · Lead post-production on commercial &amp; music video projects.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2022 — 2024</div>
+        <div class="tl-title">Video Editor</div>
+        <div class="tl-org"><em style="color:var(--accent)">[公司名稱]</em> · Short films, branded content and social cuts.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2021 — 2022</div>
+        <div class="tl-title">Editing Assistant (Intern)</div>
+        <div class="tl-org"><em style="color:var(--accent)">[公司名稱]</em> · Assisted on offline edit, media management and assembly.</div>
+      </div>
+    </div>
+
+    <div class="ov-section-title">Contact Information</div>
+    <div class="ov-contact-list">
+      <div class="ov-contact-item">
+        <span class="ov-contact-label">Email</span>
+        <a href="mailto:tennylu2000330@gmail.com">tennylu2000330@gmail.com</a>
+      </div>
+      <div class="ov-contact-item">
+        <span class="ov-contact-label">Instagram</span>
+        <a href="https://instagram.com/tenny_is_happy" target="_blank" rel="noopener">@tenny_is_happy</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 影片 modal -->
+<div class="vmodal" id="vmodal">
+  <button class="vclose" id="vclose" aria-label="Close">×</button>
+  <video id="vplayer" controls="" playsinline=""></video>
+</div>
+
+<script>
+  // 飄動圖片 — 圍繞文字緩慢漂移 + 進場
+  (function(){
+    const cards=[...document.querySelectorAll('.float-card')];
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    cards.forEach((card,i)=>{
+      const cfg=JSON.parse(card.dataset.float||'{}');
+      const dx=cfg.dx||0, dy=cfg.dy||0, rot=cfg.rot||0;
+      const dur=(cfg.dur||20)*1000, delay=(cfg.delay||0)*1000;
+      // 進場
+      card.animate(
+        [{opacity:0,transform:`translate(0,20px) scale(.9)`},{opacity:1,transform:'translate(0,0) scale(1)'}],
+        {duration:1400,delay,fill:'forwards',easing:'cubic-bezier(.2,.7,.2,1)'}
+      );
+      if(reduced){card.style.opacity=.8;return;}
+      // 持續漂移（來回）
+      const drift=card.animate(
+        [
+          {transform:`translate(0,0) rotate(0deg)`},
+          {transform:`translate(${dx}px,${dy}px) rotate(${rot}deg)`},
+          {transform:`translate(${-dx*.6}px,${-dy*.8}px) rotate(${-rot}deg)`},
+          {transform:`translate(0,0) rotate(0deg)`}
+        ],
+        {duration:dur,iterations:Infinity,easing:'ease-in-out'}
+      );
+      // 滾動視差：離開視窗時暫停以省效能
+      const hero=document.querySelector('.hero');
+      const io=new IntersectionObserver(es=>es.forEach(e=>{drift[e.isIntersecting?'play':'pause']()}),{threshold:0});
+      io.observe(hero);
+    });
+  })();
+
+  // 滾動進度條
+  const progress = document.getElementById('progress');
+  const works = [...document.querySelectorAll('[data-work]')];
+  const curIdx = document.getElementById('curIdx');
+
+  function onScroll(){
+    const h = document.documentElement;
+    const scrolled = h.scrollTop / (h.scrollHeight - h.clientHeight);
+    progress.style.width = (scrolled*100) + '%';
+
+    // 每個作品：根據在視窗中的位置 淡入淡出 + 縮放（出現又消失）
+    const vh = window.innerHeight;
+    works.forEach((w,i)=>{
+      const media = w.querySelector('.work-media');
+      const r = w.getBoundingClientRect();
+      const center = r.top + r.height/2;
+      const dist = (center - vh/2) / vh;          // -0.5 (下方) ~ +0.5 (上方)
+      // 在中央時 opacity=1，離開時淡出
+      let p = 1 - Math.min(1, Math.abs(dist)*1.7);
+      p = Math.max(0, p);
+      const opacity = p;
+      const scale = 1.06 - p*0.06 + (1-p)*0.0;     // 出現時由大縮小
+      const ty = (1-p) * 50 * (dist>0?1:-1);
+      media.style.opacity = opacity;
+      media.style.transform = `translateY(${ty}px) scale(${scale})`;
+    });
+
+    // 側邊計數：找最接近中央的作品
+    let best=0,bestD=1e9;
+    works.forEach((w,i)=>{
+      const r=w.getBoundingClientRect();
+      const d=Math.abs((r.top+r.height/2)-vh/2);
+      if(d<bestD){bestD=d;best=i;}
+    });
+    curIdx.textContent = String(best+1).padStart(2,'0');
+  }
+  let ticking=false;
+  window.addEventListener('scroll',()=>{ if(!ticking){requestAnimationFrame(()=>{onScroll();ticking=false});ticking=true} },{passive:true});
+  window.addEventListener('resize',onScroll);
+  onScroll();
+
+  // 「Tenny Lu」點擊 → 打開個人空間頁面
+  const about=document.getElementById('about');
+  document.getElementById('openAbout').addEventListener('click',()=>{about.classList.add('open');document.body.style.overflow='hidden'});
+  // 關閉 overlay
+  document.getElementById('closeAbout').addEventListener('click',()=>{about.classList.remove('open');document.body.style.overflow=''});
+  about.addEventListener('click',e=>{if(e.target===about){about.classList.remove('open');document.body.style.overflow=''}});
+  document.getElementById('openAboutFooter').addEventListener('click',e=>{e.preventDefault();about.classList.add('open');document.body.style.overflow='hidden'});
+
+  // 影片 modal
+  const vmodal=document.getElementById('vmodal');
+  const vplayer=document.getElementById('vplayer');
+  function openVideo(src){ if(src){vplayer.src=src;vmodal.classList.add('open');document.body.style.overflow='hidden'} }
+  function closeVideo(){ vmodal.classList.remove('open');vplayer.pause();vplayer.removeAttribute('src');document.body.style.overflow='' }
+  document.querySelectorAll('[data-video]').forEach(el=>el.addEventListener('click',e=>{e.preventDefault();openVideo(el.dataset.video)}));
+  document.getElementById('vclose').addEventListener('click',closeVideo);
+  vmodal.addEventListener('click',e=>{if(e.target===vmodal)closeVideo()});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeVideo();about.classList.remove('open');document.body.style.overflow=''}});
+</script>
+
+
+
+
+</body></html>
