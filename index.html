@@ -359,8 +359,7 @@
 <header>
   <div class="brand">Content&nbsp;·&nbsp;Production&nbsp;·&nbsp;Editor</div>
   <div class="header-right">
-    <button class="name-btn" id="openAbout"><span class="dot"></span>Tenny Lu</button>
-    <button class="about-btn" id="openQuickAbout">About Me</button>
+    <a href="about.html" class="name-btn" id="openAbout"><span class="dot"></span>Tenny Lu</a>
   </div>
 </header>
 
@@ -453,88 +452,9 @@
   </div>
 </section>
 
-<footer>Tenny Lu · Post-Production Editor · <a href="#" id="openAboutFooter" style="color:var(--ink-soft);text-decoration:none;border-bottom:1px solid var(--line);padding-bottom:2px">About</a> · © 2026</footer>
+<footer>Tenny Lu · Content Production Editor · <a href="about.html" style="color:var(--ink-soft);text-decoration:none;border-bottom:1px solid var(--line);padding-bottom:2px">About</a> · © 2026</footer>
 
 <div class="side-count"><b id="curIdx">01</b> / 03</div>
-
-<!-- 個人資料 overlay -->
-<div class="overlay" id="about">
-  <div class="overlay-wrap">
-    <button class="ov-close" id="closeAbout" aria-label="Close">×</button>
-    <div class="ov-kicker">Profile</div>
-    <h2 class="ov-name">Tenny Lu</h2>
-    <div class="ov-role">Post-Production Editor · Colour &amp; Story</div>
-
-    <div class="ov-welcome">
-      <h3>Welcome to my <em>personal space</em>!</h3>
-      <p>With <strong>2 years of video editing and post-production experience</strong>, I have successfully edited over <strong>100+ videos</strong>. I'm always excited for new collaborations!</p>
-    </div>
-
-    <div class="ov-section-title">Education</div>
-    <div class="timeline">
-      <div class="tl-item">
-        <div class="tl-year">2018 — 2022</div>
-        <div class="tl-title">BFA in Film &amp; Television</div>
-        <div class="tl-org"><em style="color:var(--accent)">[你的大學名稱]</em> · 請填入實際學校</div>
-      </div>
-      <div class="tl-item">
-        <div class="tl-year">2021</div>
-        <div class="tl-title">Editing &amp; Colour Grading Certificate</div>
-        <div class="tl-org"><em style="color:var(--accent)">[進修課程 / 工作坊]</em></div>
-      </div>
-    </div>
-
-    <div class="ov-section-title">Experience</div>
-    <div class="timeline">
-      <div class="tl-item">
-        <div class="tl-year">2024 — Present</div>
-        <div class="tl-title">Senior Editor</div>
-        <div class="tl-org"><em style="color:var(--accent)">[公司名稱]</em> · Lead post-production on commercial &amp; music video projects.</div>
-      </div>
-      <div class="tl-item">
-        <div class="tl-year">2022 — 2024</div>
-        <div class="tl-title">Video Editor</div>
-        <div class="tl-org"><em style="color:var(--accent)">[公司名稱]</em> · Short films, branded content and social cuts.</div>
-      </div>
-      <div class="tl-item">
-        <div class="tl-year">2021 — 2022</div>
-        <div class="tl-title">Editing Assistant (Intern)</div>
-        <div class="tl-org"><em style="color:var(--accent)">[公司名稱]</em> · Assisted on offline edit, media management and assembly.</div>
-      </div>
-    </div>
-
-    <div class="ov-section-title">Contact Information</div>
-    <div class="ov-contact-list">
-      <div class="ov-contact-item">
-        <span class="ov-contact-label">Email</span>
-        <a href="mailto:tennylu2000330@gmail.com">tennylu2000330@gmail.com</a>
-      </div>
-      <div class="ov-contact-item">
-        <span class="ov-contact-label">Instagram</span>
-        <a href="https://instagram.com/tenny_is_happy" target="_blank" rel="noopener">@tenny_is_happy</a>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- 快速簡介卡片 -->
-<div class="quick-about" id="quickAbout">
-  <div class="quick-card">
-    <button class="qc-close" id="closeQuickAbout" aria-label="Close">×</button>
-    <h3>About <em>Me</em></h3>
-    <p class="qc-bio">With <strong>2 years of video editing and post-production experience</strong>, I have successfully edited over <strong>100+ videos</strong>. I'm always excited for new collaborations!</p>
-    <div class="qc-divider"></div>
-    <div class="qc-contact-label">Contact Information</div>
-    <div class="qc-contact-item">
-      <span class="qc-type">Email</span>
-      <a href="mailto:tennylu2000330@gmail.com">tennylu2000330@gmail.com</a>
-    </div>
-    <div class="qc-contact-item">
-      <span class="qc-type">Instagram</span>
-      <a href="https://instagram.com/tenny_is_happy" target="_blank" rel="noopener">@tenny_is_happy</a>
-    </div>
-  </div>
-</div>
 
 <!-- 影片 modal -->
 <div class="vmodal" id="vmodal">
@@ -614,21 +534,6 @@
   window.addEventListener('scroll',()=>{ if(!ticking){requestAnimationFrame(()=>{onScroll();ticking=false});ticking=true} },{passive:true});
   window.addEventListener('resize',onScroll);
   onScroll();
-
-  // 「Tenny Lu」點擊 → 打開個人空間頁面
-  const about=document.getElementById('about');
-  document.getElementById('openAbout').addEventListener('click',()=>{about.classList.add('open');document.body.style.overflow='hidden'});
-  // 關閉 overlay
-  document.getElementById('closeAbout').addEventListener('click',()=>{about.classList.remove('open');document.body.style.overflow=''});
-  about.addEventListener('click',e=>{if(e.target===about){about.classList.remove('open');document.body.style.overflow=''}});
-  document.getElementById('openAboutFooter').addEventListener('click',e=>{e.preventDefault();about.classList.add('open');document.body.style.overflow='hidden'});
-
-  // 快速簡介卡片
-  const quickAbout=document.getElementById('quickAbout');
-  document.getElementById('openQuickAbout').addEventListener('click',()=>{quickAbout.classList.add('open');document.body.style.overflow='hidden'});
-  document.getElementById('closeQuickAbout').addEventListener('click',()=>{quickAbout.classList.remove('open');document.body.style.overflow=''});
-  quickAbout.addEventListener('click',e=>{if(e.target===quickAbout){quickAbout.classList.remove('open');document.body.style.overflow=''}});
-  document.addEventListener('keydown',e=>{if(e.key==='Escape'){quickAbout.classList.remove('open');document.body.style.overflow=''}});
 
   // 影片 modal
   const vmodal=document.getElementById('vmodal');
