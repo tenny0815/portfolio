@@ -69,6 +69,62 @@
   .name-btn:hover::after{transform:scaleX(1)}
   .name-btn .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);display:inline-block}
 
+  /* About Me 快速按鈕 */
+  .about-btn{
+    background:#0a2150;color:#fff;border:none;cursor:pointer;
+    font-family:'Inter',sans-serif;font-size:.72rem;letter-spacing:.2em;
+    text-transform:uppercase;font-weight:500;
+    padding:.6rem 1.3rem;border-radius:30px;margin-left:1.2rem;
+    transition:transform .3s ease,background .3s ease,box-shadow .3s ease;
+  }
+  .about-btn:hover{background:#2f7fff;transform:translateY(-2px);box-shadow:0 10px 26px -8px rgba(47,127,255,.5)}
+  .header-right{display:flex;align-items:center}
+
+  /* 快速簡介卡片 */
+  .quick-about{
+    position:fixed;inset:0;z-index:110;
+    display:none;align-items:center;justify-content:center;
+    background:rgba(10,24,40,.55);backdrop-filter:blur(8px);
+    padding:1.5rem;
+  }
+  .quick-about.open{display:flex}
+  .quick-card{
+    background:linear-gradient(160deg,#f4f9ff,#e0f0fc);
+    border-radius:18px;padding:clamp(2rem,5vw,3.2rem);
+    max-width:560px;width:100%;position:relative;
+    box-shadow:0 40px 90px -30px rgba(10,33,80,.5);
+    border:1px solid rgba(47,127,255,.15);
+    text-align:center;
+    animation:popIn .4s cubic-bezier(.2,.7,.2,1);
+  }
+  @keyframes popIn{from{opacity:0;transform:scale(.92) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
+  .quick-card .qc-close{
+    position:absolute;top:1rem;right:1.2rem;background:none;border:none;
+    cursor:pointer;font-size:1.4rem;color:var(--ink-soft);line-height:1;
+    width:34px;height:34px;border:1px solid var(--line);border-radius:50%;
+    display:flex;align-items:center;justify-content:center;transition:.3s;
+  }
+  .quick-card .qc-close:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .quick-card h3{
+    font-family:'Cormorant Garamond',serif;font-weight:600;
+    font-size:clamp(1.6rem,3vw,2.2rem);color:#0a2150;margin-bottom:1rem;line-height:1.15;
+  }
+  .quick-card h3 em{font-style:italic;color:#2f7fff;font-weight:600}
+  .quick-card .qc-bio{
+    font-size:1.05rem;line-height:1.85;color:var(--ink);font-weight:400;
+    margin-bottom:1.8rem;
+  }
+  .quick-card .qc-bio strong{color:#2f7fff;font-weight:600;background:linear-gradient(transparent 62%,rgba(47,127,255,.16) 62%);padding:0 2px}
+  .quick-card .qc-divider{height:1px;background:var(--line);margin:1.6rem 0}
+  .quick-card .qc-contact-label{
+    font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;
+    color:var(--ink-soft);font-weight:500;margin-bottom:.9rem;
+  }
+  .quick-card .qc-contact-item{display:flex;align-items:center;justify-content:center;gap:.6rem;margin-bottom:.6rem}
+  .quick-card .qc-contact-item .qc-type{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);font-weight:500}
+  .quick-card .qc-contact-item a{color:#2f7fff;text-decoration:none;font-size:1.05rem;font-weight:500;border-bottom:1px solid rgba(47,127,255,.4);padding-bottom:2px;transition:border-color .3s}
+  .quick-card .qc-contact-item a:hover{border-color:#2f7fff}
+
   /* 進度指示 */
   .progress{
     position:fixed;left:0;top:0;height:2px;width:0;
@@ -287,8 +343,11 @@
 <div class="progress" id="progress" style="width: 41.845688%;"></div>
 
 <header>
-  <div class="brand">Post&nbsp;·&nbsp;Production&nbsp;·&nbsp;Editor</div>
-  <button class="name-btn" id="openAbout"><span class="dot"></span>Tenny Lu</button>
+  <div class="brand">Content&nbsp;·&nbsp;Production&nbsp;·&nbsp;Editor</div>
+  <div class="header-right">
+    <button class="name-btn" id="openAbout"><span class="dot"></span>Tenny Lu</button>
+    <button class="about-btn" id="openQuickAbout">About Me</button>
+  </div>
 </header>
 
 <!-- 開場 -->
@@ -444,6 +503,25 @@
   </div>
 </div>
 
+<!-- 快速簡介卡片 -->
+<div class="quick-about" id="quickAbout">
+  <div class="quick-card">
+    <button class="qc-close" id="closeQuickAbout" aria-label="Close">×</button>
+    <h3>About <em>Me</em></h3>
+    <p class="qc-bio">With <strong>2 years of video editing and post-production experience</strong>, I have successfully edited over <strong>100+ videos</strong>. I'm always excited for new collaborations!</p>
+    <div class="qc-divider"></div>
+    <div class="qc-contact-label">Contact Information</div>
+    <div class="qc-contact-item">
+      <span class="qc-type">Email</span>
+      <a href="mailto:tennylu2000330@gmail.com">tennylu2000330@gmail.com</a>
+    </div>
+    <div class="qc-contact-item">
+      <span class="qc-type">Instagram</span>
+      <a href="https://instagram.com/tenny_is_happy" target="_blank" rel="noopener">@tenny_is_happy</a>
+    </div>
+  </div>
+</div>
+
 <!-- 影片 modal -->
 <div class="vmodal" id="vmodal">
   <button class="vclose" id="vclose" aria-label="Close">×</button>
@@ -530,6 +608,13 @@
   document.getElementById('closeAbout').addEventListener('click',()=>{about.classList.remove('open');document.body.style.overflow=''});
   about.addEventListener('click',e=>{if(e.target===about){about.classList.remove('open');document.body.style.overflow=''}});
   document.getElementById('openAboutFooter').addEventListener('click',e=>{e.preventDefault();about.classList.add('open');document.body.style.overflow='hidden'});
+
+  // 快速簡介卡片
+  const quickAbout=document.getElementById('quickAbout');
+  document.getElementById('openQuickAbout').addEventListener('click',()=>{quickAbout.classList.add('open');document.body.style.overflow='hidden'});
+  document.getElementById('closeQuickAbout').addEventListener('click',()=>{quickAbout.classList.remove('open');document.body.style.overflow=''});
+  quickAbout.addEventListener('click',e=>{if(e.target===quickAbout){quickAbout.classList.remove('open');document.body.style.overflow=''}});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'){quickAbout.classList.remove('open');document.body.style.overflow=''}});
 
   // 影片 modal
   const vmodal=document.getElementById('vmodal');
