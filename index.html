@@ -202,8 +202,8 @@
   .work-media{
     position:relative;width:100%;max-width:880px;margin:0 auto;
     aspect-ratio:16/9;border-radius:4px;overflow:hidden;
-    background:rgba(255,255,255,.25);
-    box-shadow:0 40px 90px -40px rgba(20,50,80,.45);
+    background:none;
+    box-shadow:none;
     opacity:0;transform:translateY(60px) scale(1.06);
     transition:opacity .2s linear,transform .2s linear;
     will-change:opacity,transform;
@@ -365,31 +365,11 @@
 <!-- 開場 -->
 <section class="hero">
   <div class="hero-stage" id="heroStage">
-    <!-- 飄動圖片 — 圍繞文字（原始圖片，無邊框） -->
-    <div class="float-card" data-float='{"dx":18,"dy":-14,"rot":4,"dur":16,"delay":0.2}' style="width:clamp(70px,10vw,130px);top:-8%;left:-18%;border-radius:0;background:none;border:none;box-shadow:none;overflow:visible">
-      <img src="assets/float-01.jpg" alt="" style="border-radius:0;object-fit:contain;display:block;border:none;outline:none">
-    </div>
-    <div class="float-card" data-float='{"dx":-15,"dy":12,"rot":-5,"dur":18,"delay":0.5}' style="width:clamp(80px,11vw,140px);top:-12%;right:-16%;border-radius:0;background:none;border:none;box-shadow:none;overflow:visible">
-      <img src="assets/float-02.jpg" alt="" style="border-radius:0;object-fit:contain;display:block;border:none;outline:none">
-    </div>
-    <div class="float-card" data-float='{"dx":22,"dy":10,"rot":3,"dur":20,"delay":0.8}' style="width:clamp(75px,10vw,135px);top:35%;left:-22%;border-radius:0;background:none;border:none;box-shadow:none;overflow:visible">
-      <img src="assets/float-03.jpg" alt="" style="border-radius:0;object-fit:contain;display:block;border:none;outline:none">
-    </div>
-    <div class="float-card" data-float='{"dx":-20,"dy":-16,"rot":-4,"dur":17,"delay":1.1}' style="width:clamp(80px,11vw,145px);top:38%;right:-22%;border-radius:0;background:none;border:none;box-shadow:none;overflow:visible">
-      <img src="assets/float-04.jpg" alt="" style="border-radius:0;object-fit:contain;display:block;border:none;outline:none">
-    </div>
-    <div class="float-card" data-float='{"dx":14,"dy":18,"rot":5,"dur":19,"delay":1.4}' style="width:clamp(70px,9vw,120px);bottom:-8%;left:-14%;border-radius:0;background:none;border:none;box-shadow:none;overflow:visible">
-      <img src="assets/float-05.jpg" alt="" style="border-radius:0;object-fit:contain;display:block;border:none;outline:none">
-    </div>
-    <div class="float-card" data-float='{"dx":-16,"dy":-12,"rot":-3,"dur":21,"delay":1.7}' style="width:clamp(75px,10vw,130px);bottom:-6%;right:-14%;border-radius:0;background:none;border:none;box-shadow:none;overflow:visible">
-      <img src="assets/float-06.jpg" alt="" style="border-radius:0;object-fit:contain;display:block;border:none;outline:none">
-    </div>
     <div class="hero-text">
       <h1>I <em style="font-weight: bold;">cut</em>.<br>I <em style="font-weight: bold;">create</em>.<br>I make things <em style="font-weight: bold;">move</em>.</h1>
       <div class="sub" style="font-weight: bold; font-size: 20px;">&nbsp;Tenny Lu</div>
     </div>
   </div>
-  <div class="scroll-cue"><span>Scroll</span><span class="line"></span></div>
 </section>
 
 <!-- 作品（佔位，之後換成真實作品） -->
@@ -397,7 +377,7 @@
   <div class="work-inner">
     <div class="work-media" style="opacity: 0; transform: translateY(-50px) scale(1.06);">
       <span class="index">01</span>
-      <div class="work-thumb" style="background:rgba(255,255,255,.15)"></div>
+      <div class="work-thumb" style="background:none"><img src="assets/work-img-01.jpg" alt="Work 01" style="width:100%;height:100%;object-fit:cover;display:block"></div>
       <button class="play" aria-label="Play reel" onclick="window.location.href='watch.html?v=1'">
         <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>
       </button>
@@ -419,7 +399,7 @@
   <div class="work-inner">
     <div class="work-media" style="opacity: 0.479571; transform: translateY(-26.021459px) scale(1.031226);">
       <span class="index">02</span>
-      <div class="work-thumb" style="background:rgba(255,255,255,.15)"></div>
+      <div class="work-thumb" style="background:none"><img src="assets/work-img-02.jpg" alt="Work 02" style="width:100%;height:100%;object-fit:cover;display:block"></div>
       <button class="play" aria-label="Play reel" onclick="window.location.href='watch.html?v=2'">
         <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>
       </button>
@@ -441,7 +421,7 @@
   <div class="work-inner">
     <div class="work-media" style="opacity: 0; transform: translateY(50px) scale(1.06);">
       <span class="index">03</span>
-      <div class="work-thumb" style="background:rgba(255,255,255,.15)"></div>
+      <div class="work-thumb" style="background:none"><img src="assets/work-img-03.jpg" alt="Work 03" style="width:100%;height:100%;object-fit:cover;display:block"></div>
       <button class="play" aria-label="Play reel" onclick="window.location.href='watch.html?v=3'">
         <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>
       </button>
